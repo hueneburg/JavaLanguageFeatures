@@ -3,9 +3,10 @@ Library providing features of different languages for Java
 
 ## Benchmark Results ##
 
+1000 Runs with each method. Custom method starts.
+
 ### CSharpFormat
 
-1000 Runs with each method. Custom method starts.
 
 Version | Time in ns 
 ---|---
