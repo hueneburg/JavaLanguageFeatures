@@ -9,7 +9,7 @@ Library providing features of different languages for Java
 
 
 Version | Time in ns 
----|---
-Custom       | 11033851
-Java Format  | 33449674
-Java Replace | 21792429
+---|---:
+Custom  | 19182551
+Format  | 51379324
+Replace | 35903209
