@@ -10,44 +10,46 @@ import string.CSharpFormat;
 public class CSharpFormatBenchmark {
 
     public static void run() throws FormatException, ArgumentNullException {
-        long time = 0;
+        long custom = 0;
         for (int i = 0; i < 1000; i++) {
-            time += vsJavaFormat();
+            custom += custom();
         }
-        System.out.println("CSharpFormat vs JavaFormat: " + time + "ns less needed");
 
-        time = 0;
+        long format = 0;
         for (int i = 0; i < 1000; i++) {
-            time += vsJavaFormat();
+            format += format();
         }
-        System.out.println("CSharpFormat vs JavaReplace: " + time + "ns less needed");
+
+        long replace = 0;
+        for (int i = 0; i < 1000; i++) {
+            replace += replace();
+        }
+        System.out.println("CSharpFormat: " + custom + "ns needed");
+        System.out.println("JavaFormat  : " + format + "ns needed");
+        System.out.println("JavaReplace : " + replace + "ns needed");
     }
 
-    public static long vsJavaFormat() throws FormatException, ArgumentNullException {
-        String a = "%s this is a test %s";
-        long timeJava = System.nanoTime();
-        String.format(a, "a", "b");
-        timeJava -= System.nanoTime();
-        timeJava *= -1;
-        a = "{0} this is a test {1}";
-        long timeCSharp = System.nanoTime();
+    private static long custom() throws FormatException, ArgumentNullException {
+        String a = "{0} this is a test {1} {0}";
+        long time = System.nanoTime();
         CSharpFormat.format(a, "a", "b");
-        timeCSharp -= System.nanoTime();
-        timeCSharp *= -1;
-        return timeJava - timeCSharp;
+        time -= System.nanoTime();
+        return time * -1;
     }
 
-    public static long vsJavaReplace() throws FormatException, ArgumentNullException {
+    private static long format() {
         String a = "%s this is a test %s %s";
-        long timeJava = System.nanoTime();
-        a.replace("%s", "a");
-        timeJava -= System.nanoTime();
-        timeJava *= -1;
-        a = "{0} this is a test {0} {0}";
-        long timeCSharp = System.nanoTime();
-        CSharpFormat.format(a, "a");
-        timeCSharp -= System.nanoTime();
-        timeCSharp *= -1;
-        return timeJava - timeCSharp;
+        long time = System.nanoTime();
+        String.format(a, "a", "b", "a");
+        time -= System.nanoTime();
+        return time * -1;
+    }
+
+    private static long replace() throws FormatException, ArgumentNullException {
+        String a = "{0} this is a test {1} {0}";
+        long time = System.nanoTime();
+        a.replace("{0}", "a").replace("{1}", "b");
+        time -= System.nanoTime();
+        return time * -1;
     }
 }
